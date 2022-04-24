@@ -229,6 +229,7 @@
 
     async function makePrediction(tab) {
         const seq = getSeq(tab);
+        document.querySelector(`#${tab} #result`).innerHTML = 'Processing...';
         document.querySelector(`#${tab} #warning`).innerHTML = seq.warning.join('<br />');
 
         if (seq.error) {
@@ -247,7 +248,9 @@
         }
         let results = [];
 	let modelUrl = getModelUrl(tab);
+        document.querySelector(`#${tab} #result`).innerHTML += '<br>Loading model...';
         let model = await tf.loadLayersModel(modelUrl);
+        document.querySelector(`#${tab} #result`).innerHTML += '<br>Model loaded<br>Processing data...';
             for (var i = 0; i < seq.smallRNA.length; i++) {
                 const smallRNA = seq.smallRNA[i];
                 const target = seq.target[i];
