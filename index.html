@@ -4,97 +4,11 @@
 <meta charset="utf-8" />
 
 <head>
-    <style>
-        .seqtext {
-            font-family: Georgia, serif;
-            white-space: pre;
-            margin: 1em 0;
-        }
-
-        html,
-        body {
-            padding: 0;
-            background: #fff;
-            color: #778899;
-            float: center;
-        }
-
-        h1 {
-            width: 20%;
-            font-family: "Verdana", sans-serif;
-            font-size: 3em;
-            font-weight: 100;
-            text-transform: none;
-            letter-spacing: 3px;
-            text-align: center;
-            color: #364e65;
-            padding: 0;
-            margin-left: auto;
-            margin-right: auto;
-            text-shadow: 1px 1px 2px;
-        }
-
-        .tab {
-            width: 80%;
-            font-family: 'Times New Roman', serif;
-            margin: auto;
-        }
-
-        .bar-button {
-            background-color: #4682B4;
-            color: white;
-            padding: 12px 30px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            font-weight: bold;
-            border: 0;
-            border-bottom: 3px solid #4682B4;
-        }
-
-        .bar-button.button1.selected {
-            border-bottom: 3px solid #0c304b;
-            /*background-color: #2b5272;*/
-        }
-
-        .button1:hover {
-            filter: brightness(85%);
-        }
-
-        .bar .bar-button {
-            float: left;
-        }
-
-        .bar.buttons.menu {
-            height: 50px;
-        }
-
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
-
-    </style>
-
-
     <TITLE>smallRNA binding</TITLE>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
+    <link rel="stylesheet" href="style.css">
     <!script src="http://wzrd.in/bundle/biojs-io-fasta@latest"></script>
 </head>
 
@@ -110,7 +24,7 @@
 <div class="body">
     <div id="miRNA" class="bar tab" style="">
         <form method="post" enctype="multipart/form-data">
-            <h4><strong>Multiple miRNA-target pairs</strong></h4>
+            <h4><strong>miRNA - target binding prediction tool</strong></h4>
             <br /><br />
             <p>Insert miRNA (20 nt) sequences here (line separated)</p>
 
@@ -119,21 +33,21 @@
             <p>Insert target mRNA sequences (50 nt) here (line separated)</p>
             <div><textarea name="target" id="target" style="width:70%;height:100px;" placeholder="Paste mRNA sequences" required></textarea></div><br />
 
-            <button type="button" value="Load example" name="example2" onclick="loadExample('miRNA')">Load example</button><input type="reset" value="Reset" name="reset"><button type="button" value="Submit" name="submit" onclick="makePrediction('miRNA')">Submit</button>
+            <button type="button" value="Load example" name="example" onclick="loadExample('miRNA')">Load example</button><input type="reset" value="Reset" name="reset"><button type="button" value="Submit" name="submit" onclick="makePrediction('miRNA')">Submit</button>
             <br/><br/>
             <div class="warning" id="warning"></div><br/>
             <div class="result" id="result"></div><br/>
         </form>
-    </div><br />
+    </div>
 
 
     <div id="tRNA" class="bar tab" style="display: none">
         <form method="post" enctype="multipart/form-data">
-            <h4><strong>Multiple miRNA-target pairs</strong></h4>
+            <h4><strong>tRNA - target binding prediction tool</strong></h4>
             <br /><br />
-            <p>Insert miRNA (20 nt) sequences here (line separated)</p>
+            <p>Insert tRNA (20 nt) sequences here (line separated)</p>
 
-            <div><textarea name="smallRNA" id="smallRNA" style="width:70%;height:100px;" placeholder="Paste miRNA sequences" required></textarea></div>
+            <div><textarea name="smallRNA" id="smallRNA" style="width:70%;height:100px;" placeholder="Paste tRNA sequences" required></textarea></div>
             <br />
             <p>Insert target mRNA sequences (50 nt) here (line separated)</p>
             <div><textarea name="target" id="target" style="width:70%;height:100px;" placeholder="Paste mRNA sequences" required></textarea></div><br />
@@ -143,155 +57,16 @@
             <div class="warning" id="warning"></div><br/>
             <div class="result" id="result"></div><br/>
         </form>
-    </div><br />
+    </div>
 </div>
 
+<footer id="footer-2-cols" class="site-footer">
+        For more information see <a href="https://github.com/evaklimentova/smallRNA_binding">https://github.com/evaklimentova/smallRNA_binding</a>
+</footer>
 
-
-<script>
-    const PRECISE = 0.9;
-    const SENSITIVE = 0.5;
-
-    function openTab(tabName) {
-        let i;
-        let x = document.getElementsByClassName("tab");
-        for (i = 0; i < x.length; i++) {
-            x[i].style.display = "none";
-        }
-        document.getElementById(tabName).style.display = "block";
-        document.querySelector('.bar-button.button1.selected').className = "bar-button button1";
-        document.getElementById(`${tabName}Tab`).className = "bar-button button1 selected";
-    }
-
-
-    function simpleSeq(x) {
-        return {
-            name: '',
-            seq: x
-        };
-    }
-
-    function loadExample(tab) {
-        switch (tab) {
-            case 'miRNA':
-                document.querySelector(`#${tab} #smallRNA`).value = "TCCGAGCCTGGGTCTCCCTC\nAAAGTGCTTCCCTTTGGACT";
-                document.querySelector(`#${tab} #target`).value = "TTCAGGAGAAGCTGAGAGAGACCCAGGAGTATAACCGAATTCAGAAGGAG\nCCTGAGGAGACCAAGCTGGGCAAGAGGCAGTGCGACGGCAAGAATGCGCT";
-                return;
-            case 'tRNA':
-                document.querySelector(`#${tab} #smallRNA`).value = "TCCCTGGTGGTCTAGTGGTT\nAACCAGGCGGAAACACCAAA";
-                document.querySelector(`#${tab} #target`).value = "GACCACCACCTCAGCTCTGCGGACCTTTTGGGCCTCGGCCACTTCCTCCA\nTCCACCAGGAAGACGGGACCTGCCTCTCCACCCTCGGGGATTTTTACCTG";
-                return;
-        }
-    }
-
-    function getSeq(tab) {
-        let error = false;
-        let warning = [];
-
-        const validate = (array, field = 'small RNA', limit = 20) => {
-            array.map((item, index) => {
-                item.toUpperCase().replace(/\s/g,'').replace(/U/g, 'T');
-                if (!item.length) {
-                    error = true;
-                    warning.push(`Error: ${field} on line: ${index + 1} is empty`);
-                } else if (item.length > limit) {
-                    warning.push(`Warning: ${field} on line: ${index + 1} is longer than ${limit} bp. Trimming.`);
-                    item = item.slice(0, limit);
-                } else if (item.length < limit) {
-                    warning.push(`Warning: ${field} on line: ${index + 1} is shorter than ${limit} bp. Too short sequences may lead to unexpected behaviour.`);
-                }
-
-                if (!/^([ACGT])*$/.test(item)) {
-                    error = true;
-                    warning.push(`Error: ${field} on line: ${index + 1} contains not allowed bases. Allowed bases are: "A", "C", "G", "T", "U"`);
-                }
-
-                return item;
-            });
-
-            return array;
-        };
-        const smallRNA = validate(document.querySelector(`#${tab} #smallRNA`).value?.trim()?.split(/\r?\n/));
-        const target = validate(document.querySelector(`#${tab} #target`).value?.trim()?.split(/\r?\n/), 'target', 50);
-
-        if (smallRNA.length !== target.length) {
-            error = true;
-            warning.push(`Error: The number of miRNAs and mRNAs must be equal.`);
-        }
-
-        return {
-            smallRNA: smallRNA,
-            target: target,
-            error: error,
-            warning: warning,
-        };
-    }
-
-    async function makePrediction(tab) {
-        const seq = getSeq(tab);
-        document.querySelector(`#${tab} #result`).innerHTML = 'Processing...';
-        document.querySelector(`#${tab} #warning`).innerHTML = seq.warning.join('<br />');
-
-        if (seq.error) {
-            return;
-        }
-
-        const resultColor = (x) => {
-            switch (true) {
-                case x > PRECISE:
-                    return 'blue';
-                case x > SENSITIVE:
-                    return 'green';
-                default:
-                    return '';
-            }
-        }
-        let results = [];
-	let modelUrl = getModelUrl(tab);
-        document.querySelector(`#${tab} #result`).innerHTML += '<br>Loading model...';
-        let model = await tf.loadLayersModel(modelUrl);
-        document.querySelector(`#${tab} #result`).innerHTML += '<br>Model loaded<br>Processing data...';
-            for (var i = 0; i < seq.smallRNA.length; i++) {
-                const smallRNA = seq.smallRNA[i];
-                const target = seq.target[i];
-                let input = "";
-                for (var j = 0; j < 1000; j++) {
-                    input[j] = new Array(20);
-                }
-                binding = ["AT", "TA", "CG", "GC"];
-                for (var k = 0; k < 50; k++) {
-                    for (var l = 0; l < 20; l++) {
-                        char = smallRNA.charAt(l) + target.charAt(k);
-                        if (char.length !== 2) {
-                            input += '0';
-                        } else if (binding.includes(char)) {
-                            input += '1';
-                        } else {
-                            input += '0';
-                        }
-                    }
-                }
-                y1 = tf.tensor1d(input.split(''), 'int32');
-                y2 = y1.reshape([1, 50, 20, 1]);
-
-                let result = parseFloat(model.predict(y2)?.asScalar()?.dataSync())?.toFixed(4);
-                results.push("<tr><td>" + smallRNA + "</td><td>" + target + "</td><td style='color:" + resultColor(result) + ";'>" + result + "</td></tr>");
-        }
-        document.querySelector(`#${tab} #result`).innerHTML = '<table><thead><th>miRNA sequence</th><th>mRNA sequence</th><th>score</th></thead>' +
-            results.join('') +
-            '</table>' +
-            `<br/><br/>Scores highlighted in <span  style=\'color:green;\'>green</span> exceed the sensitive threshold (${SENSITIVE}) of miRBind.<br/> Scores highlighted in <span  style=\'color:blue;\'>blue</span> exceed the precise threshold (${PRECISE}) of miRBind.`
-    }
-
-    function getModelUrl(tab) {
-        switch (tab) {
-            case 'miRNA':
-                return "https://raw.githubusercontent.com/evaklimentova/smallRNA_binding/main/Webpage/tfjs_miRNA_model/model.json";
-            case 'tRNA':
-                return "https://raw.githubusercontent.com/evaklimentova/smallRNA_binding/main/Webpage/tfjs_tRNA_model/model.json";
-        }
-    }
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
+    <script src="script.js"></script>
 
 </body>
 
