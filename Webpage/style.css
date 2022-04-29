@@ -1,95 +1,144 @@
-        .seqtext {
-            font-family: Georgia, serif;
-            white-space: pre;
-            margin: 1em 0;
-        }
+.seqtext {
+    font-family: Georgia, serif;
+    white-space: pre;
+    margin: 1em 0;
+}
 
-        html,
-        body {
-            padding: 0;
-            background: #fff;
-            float: center;
-        }
+html,
+body {
+    padding: 0;
+    background: #fff;
+}
 
-        .body {
-            margin-top: 32px;
-        }
+.body {
+    margin-top: 32px;
+}
 
-        h1 {
-            width: 20%;
-            font-family: "Verdana", sans-serif;
-            font-size: 3em;
-            font-weight: 100;
-            text-transform: none;
-            letter-spacing: 3px;
-            text-align: center;
-            color: #364e65;
-            padding: 0;
-            margin-left: auto;
-            margin-right: auto;
-            text-shadow: 1px 1px 2px;
-        }
+.tab {
+    width: 80%;
+    font-family: 'Times New Roman', serif;
+    margin: auto;
+}
 
-        .tab {
-            width: 80%;
-            font-family: 'Times New Roman', serif;
-            margin: auto;
-        }
+.bar.buttons.menu {
+    height: 50px;
+}
 
-        .bar-button {
-            background-color: #4682B4;
-            color: white;
-            padding: 12px 30px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            font-weight: bold;
-            border: 0;
-            border-bottom: 3px solid #4682B4;
-        }
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
 
-        .bar-button.button1.selected {
-            border-bottom: 3px solid #0c304b;
-            /*background-color: #2b5272;*/
-        }
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
 
-        .button1:hover {
-            filter: brightness(85%);
-        }
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
 
-        .bar .bar-button {
-            float: left;
-        }
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #EEE;
+    color: #444;
+    padding: 10px 0;
+    text-align: center;
+}
 
-        .bar.buttons.menu {
-            height: 50px;
-        }
+li {
+    list-style-type: none;
+    display: inline-block;
+    margin: 5px 10px;
+}
 
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
+.navTool {
+    height: 3px;
+    width: 50%;
+    position: absolute;
+    transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    top: 33px;
+    background-color: darkblue;
+    left: 0;
+}
 
-        td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
+.menuItem {
+    width: 10px;
+    display: flex;
+    flex: 1 0 auto;
+    justify-content: center;
+    padding: 8px 0;
+    cursor: pointer;
+    color: #FFF;
+    font-weight: 700;
+}
 
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
+.menuItem:hover {
+    background: rgba(255,255,255,0.1);
+}
 
-        footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            background-color: #EEE;
-            color: #444;
-            padding: 10px 0;
-            text-align: center;
-        }
+.menuItems {
+    width: 100%;
+    display: flex;
+    place-content: space-around;
+    background-color: #4F77AA;
+}
 
+
+.button {
+    appearance: none;
+    background-color: #4F77AA;
+    /*border: 1px solid rgba(27, 31, 35, 0.15);*/
+    border: 0;
+    border-radius: 6px;
+    box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+    box-sizing: border-box;
+    color: #FFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    list-style: none;
+    padding: 6px 16px;
+    position: relative;
+    transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+    white-space: nowrap;
+    word-wrap: break-word;
+    margin-right: 16px;
+}
+
+.button:hover {
+    /*background-color: #F3F4F6;*/
+    opacity: 0.9;
+    text-decoration: none;
+    transition-duration: 0.1s;
+}
+
+.button:active {
+    opacity: 0.7;
+    box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+    transition: none 0s;
+}
+
+.button:focus {
+    outline: 1px transparent;
+}
+
+.button:before {
+    display: none;
+}
+
+.button::-webkit-details-marker {
+    display: none;
+}

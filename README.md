@@ -2,7 +2,13 @@
 
 Convolutional Neural Network for prediction of smallRNA:target site binding based on given smallRNA and target sequence.
 
-## Installation
+
+### Web application
+
+The user-friendly web application for miRNA and tRNA target predictions https://evaklimentova.github.io/smallRNA_binding/
+
+
+## Installation of standalone version
 
 Using Git:
 ```
@@ -41,7 +47,7 @@ pip install -r requirements.txt
 
 ### Prediction
 
-To make the predictions, choose one of the miRNA (Models/model_miRNA.h5), tRNA (Models/model_tRNA.h5) or yRNA (Models/model_yRNA.h5) models
+To make the predictions, choose one of the miRNA (Models/model_miRNA.h5), tRNA (Models/model_tRNA.h5) or yRNA (Models/model_yRNA.h5) models. Required input is a tsv file with multiple potential small RNA - target pairs consisting of first column containing small RNA sequence (idealy around 20 bp long) and second column containing exactly 50 bp long target sequence.
 
 ```
 # if you are not actively sourcing from the previously created virtualenv:
@@ -49,8 +55,4 @@ source venv/bin/activate
 # run the prediction
 ./predict.py --input <input_file> --output <output_file> --model <Models/model_miRNA.h5>
 ```
-
-### Web application
-
-The user-friendly web application for miRNA and tRNA target predictions https://evaklimentova.github.io/smallRNA_binding/
 
