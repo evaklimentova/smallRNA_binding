@@ -1,4 +1,4 @@
-const PRECISE = 0.9;
+// const PRECISE = 0.9;
 const SENSITIVE = 0.5;
 
 function openTab(tabName, position) {
@@ -89,10 +89,10 @@ async function makePrediction(tab) {
 
     const resultColor = (x) => {
         switch (true) {
-            case x > PRECISE:
-                return 'blue';
+            // case x > PRECISE:
+            //     return 'blue';
             case x > SENSITIVE:
-                return 'green';
+                return 'blue';
             default:
                 return '';
         }
@@ -130,8 +130,7 @@ async function makePrediction(tab) {
     }
     document.querySelector(`#${tab} #result`).innerHTML = '<table><thead><th>miRNA sequence</th><th>mRNA sequence</th><th>score</th></thead>' +
         results.join('') +
-        '</table>' +
-        `<br/><br/>Scores highlighted in <span  style=\'color:green;\'>green</span> exceed the sensitive threshold (${SENSITIVE}) <br/> Scores highlighted in <span  style=\'color:blue;\'>blue</span> exceed the precise threshold (${PRECISE})`
+        '</table>'
 }
 
 function getModelUrl(tab) {

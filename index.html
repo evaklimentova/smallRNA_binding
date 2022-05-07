@@ -9,13 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/smallRNA_binding/Webpage/style.css">
-    <!--<link rel="stylesheet" href="style.css">-->
+    <!--<link rel="stylesheet" href="Webpage/style.css">-->
 </head>
 
 <body>
 
-
-<div>
+<div class="site">
+<div class="site-header site-element">
     <div id="menuItems" class="menuItems">
         <div class="menuItem" onclick="openTab('miRNA', 0)">miRNA</div>
         <div class="menuItem" onclick="openTab('tRNA', 1)">tRNA</div>
@@ -23,12 +23,12 @@
     <div id="navTool" class="navTool"></div>
 </div>
 
-<div class="body">
+<div class="site-body site-element">
     <div id="miRNA" class="bar tab" style="">
         <form method="post" enctype="multipart/form-data">
             <h4><strong>miRNA - target binding prediction tool</strong></h4>
             <br/><br/>
-            <p>Insert miRNA (20 nt) sequences here (line separated)</p>
+            <p>Insert miRNA sequences (20 nt) here (line separated)</p>
 
             <div><textarea name="smallRNA" id="smallRNA" style="width:70%;height:100px;"
                            placeholder="Paste miRNA sequences" required></textarea></div>
@@ -55,7 +55,7 @@
         <form method="post" enctype="multipart/form-data">
             <h4><strong>tRNA - target binding prediction tool</strong></h4>
             <br/><br/>
-            <p>Insert tRNA (20 nt) sequences here (line separated)</p>
+            <p>Insert tRNA sequences (20 nt) here (line separated)</p>
 
             <div><textarea name="smallRNA" id="smallRNA" style="width:70%;height:100px;"
                            placeholder="Paste tRNA sequences" required></textarea></div>
@@ -78,14 +78,14 @@
     </div>
 </div>
 
-<footer id="footer-2-cols" class="site-footer">
+<div id="footer-2-cols" class="site-footer site-element">
     For more information see <a href="https://github.com/evaklimentova/smallRNA_binding">https://github.com/evaklimentova/smallRNA_binding</a>
-</footer>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"></script>
 <script src="/smallRNA_binding/Webpage/script.js"></script>
-<!--<script src="script.js"></script>-->
+<!--<script src="Webpage/script.js"></script>-->
 
 </body>
 
